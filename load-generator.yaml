@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trace-load-generator
+  labels:
+    app: trace-load-generator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trace-load-generator
+  template:
+    metadata:
+      labels:
+        app: trace-load-generator
+    spec:
+      containers:
+        - name: app
+          image: omnition/synthetic-load-generator
+          env:
+            - name: JAEGER_COLLECTOR_URL
+              value: http://simple-prod-collector.test-opensearch.svc:14268
