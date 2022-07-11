@@ -1,4 +1,4 @@
-# Grafana Tempo and Elasticsearch resource comparison
+# Grafana Tempo and Elasticsearch performance comparison
 
 This repository compares resource utilization of Tempo and Elasticsearch.
 
