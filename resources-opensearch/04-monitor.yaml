@@ -67,4 +67,4 @@ spec:
       app: jaeger
   podMetricsEndpoints:
     - port: admin-http
-      interval: 5s
+      interval: 1s
