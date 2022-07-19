@@ -4,6 +4,10 @@ metadata:
   name: simple-prod
 spec:
   strategy: production
+  resources:
+    requests:
+      cpu: 100m
+      memory: 100Mi
   storage:
     type: elasticsearch
     options:
