@@ -8,6 +8,11 @@ spec:
     requests:
       cpu: 100m
       memory: 100Mi
+  collector:
+    replicas: 4
+    options:
+        collector.num-workers: 100
+        collector.queue-size: 3000
   storage:
     type: elasticsearch
     options:

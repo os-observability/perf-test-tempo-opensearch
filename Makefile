@@ -20,12 +20,16 @@ deploy-jaeger-operator:
 
 .PHONY: deploy-test-opensearch
 deploy-test-opensearch:
-	kubectl create namespace test-opensearch
+	kubectl create namespace test-opensearch || true
 	helm repo add opensearch https://opensearch-project.github.io/helm-charts/
 	# deploy OpenSearch 1.3.3
-	helm install opensearch-cluster -f opensearch-helm-values.yaml --namespace test-opensearch opensearch/opensearch --version 1.13.0
+	helm install opensearch-cluster -f opensearch-helm-values.yaml --namespace test-opensearch opensearch/opensearch --version 1.13.0 || true
 	kubectl apply -f ./resources-opensearch -n test-opensearch
 
 .PHONY: port-forward-grafana
 port-forward-grafana:
 	kubectl port-forward svc/grafana 3000:3000 -n monitoring
+
+.PHONY: port-forward-opensearch
+port-forward-opensearch:
+	kubectl port-forward svc/opensearch-cluster-master 9200:9200 -n test-opensearch
