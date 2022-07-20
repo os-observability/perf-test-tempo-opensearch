@@ -380,22 +380,22 @@ data:
         {
           "service": "frontend",
           "route": "/product",
-          "tracesPerHour": 40000
+          "tracesPerHour": 80000
         },
         {
           "service": "frontend",
           "route": "/alt_product_0",
-          "tracesPerHour": 40000
+          "tracesPerHour": 80000
         },
         {
           "service": "frontend",
           "route": "/alt_product_1",
-          "tracesPerHour": 40000
+          "tracesPerHour": 80000
         },
         {
           "service": "frontend",
           "route": "/alt_product_2",
-          "tracesPerHour": 40000
+          "tracesPerHour": 80000
         }
       ]
     }
