@@ -108,7 +108,7 @@
             "uid": "P1809F7CD0C75ACF3"
           },
           "editorMode": "builder",
-          "expr": "container_memory_usage_bytes{namespace=\"test-opensearch\"}",
+          "expr": "container_cpu_usage_seconds_total{namespace=\"test-opensearch\"}",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -197,7 +197,7 @@
             "uid": "P1809F7CD0C75ACF3"
           },
           "editorMode": "builder",
-          "expr": "container_cpu_usage_seconds_total{namespace=\"test-opensearch\"}",
+          "expr": "container_memory_usage_bytes{namespace=\"test-opensearch\"}",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -385,7 +385,32 @@
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "sum(jaeger_bulk_index_errors_total)"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 8,
@@ -907,6 +932,6 @@
   "timezone": "",
   "title": "test-opensearch",
   "uid": "N5Ii6Qenz",
-  "version": 2,
+  "version": 4,
   "weekStart": "monday"
 }
