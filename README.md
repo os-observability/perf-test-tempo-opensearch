@@ -22,9 +22,13 @@ make deploy-test-opensearch
 kubectl apply -f load-generator.yaml  
 ```
 
-## Kubernetes node resources
+## Check Kubernetes resources
 ```bash
 kubectl describe nodes kind-control-plane
+```
+
+```bash
+kubectl top pod -n test-opensearch   
 ```
 
 ## Related links
