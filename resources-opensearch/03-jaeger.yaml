@@ -11,11 +11,19 @@ spec:
   collector:
     replicas: 5
     options:
-        collector.num-workers: 1000
-        # for 400k memory is ~1463Mi
-        collector.queue-size: 400000
-        es.num-shards: 3
-        es.num-replicas: 1
+      collector.num-workers: 5000
+      # for 400k memory is ~1463Mi
+      collector.queue-size: 400000
+      es.num-shards: 3
+      es.num-replicas: 1
+      # default 1
+      es.bulk.workers: 10
+      # default 5000000
+      es.bulk.size: 5000000
+      # default 1000
+      es.bulk.actions: 1000
+      # default 200ms
+      es.bulk.flush-interval: 200ms
   storage:
     type: elasticsearch
     options:
