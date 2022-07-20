@@ -424,10 +424,10 @@ spec:
               name: topology-files
               readOnly: true
           env:
-            - name: JAEGER_COLLECTOR_URL_REMOVE
+            - name: JAEGER_COLLECTOR_URL
               value: http://simple-prod-collector-headless.test-opensearch.svc:14268
-            - name: ZIPKINV2_JSON_URL
-              value: http://simple-prod-collector.test-opensearch.svc:9411
+#            - name: ZIPKINV2_JSON_URL
+#              value: http://simple-prod-collector.test-opensearch.svc:9411
             - name: TOPOLOGY_FILE
               value: /topology-files/topology.json
       volumes:
