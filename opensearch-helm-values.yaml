@@ -130,6 +130,7 @@ podAnnotations: {}
 # additionals labels
 labels: {}
 
+# heap settings should be half of the total RAM
 opensearchJavaOpts: "-Xmx512M -Xms512M"
 
 resources:
@@ -137,6 +138,9 @@ resources:
     # 1000m equals to 1 CPU
     cpu: "1000m"
     memory: "100Mi"
+  limits:
+    cpu: "1000m"
+    memory: "1000Mi"
 
 initResources: {}
 #  limits:

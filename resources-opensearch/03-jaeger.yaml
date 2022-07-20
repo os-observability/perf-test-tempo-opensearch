@@ -11,8 +11,11 @@ spec:
   collector:
     replicas: 5
     options:
-        collector.num-workers: 100
-        collector.queue-size: 4000
+        collector.num-workers: 1000
+        # for 400k memory is ~1463Mi
+        collector.queue-size: 400000
+        es.num-shards: 3
+        es.num-replicas: 1
   storage:
     type: elasticsearch
     options:
