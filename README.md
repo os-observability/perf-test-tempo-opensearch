@@ -22,6 +22,11 @@ make deploy-test-opensearch
 kubectl apply -f load-generator.yaml  
 ```
 
+## Kubernetes node resources
+```bash
+kubectl describe nodes kind-control-plane
+```
+
 ## Related links
 * Grafana Tempo capacity planning https://github.com/grafana/tempo/issues/1540
 * Grafana Mimir capacity planning https://github.com/grafana/mimir/issues/1988
