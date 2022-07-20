@@ -67,4 +67,4 @@ spec:
       app.kubernetes.io/instance: tempo-cluster
   endpoints:
     - port: http
-      interval: 5s
+      interval: 2s
