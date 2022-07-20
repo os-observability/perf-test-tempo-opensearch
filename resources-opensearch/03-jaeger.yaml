@@ -12,7 +12,7 @@ spec:
     replicas: 3
     options:
         collector.num-workers: 100
-        collector.queue-size: 3000
+        collector.queue-size: 4000
   storage:
     type: elasticsearch
     options:

@@ -1,7 +1,8 @@
 
 .PHONY: start-minikube
 start-minikube:
-	minikube start --memory=20g --cpus=8 --bootstrapper=kubeadm --extra-config=kubelet.authentication-token-webhook=true --extra-config=kubelet.authorization-mode=Webhook --extra-config=scheduler.bind-address=0.0.0.0 --extra-config=controller-manager.bind-address=0.0.0.0
+	minikube start --memory=20g --cpus=8 --disk-size=50g --bootstrapper=kubeadm --extra-config=kubelet.authentication-token-webhook=true --extra-config=kubelet.authorization-mode=Webhook --extra-config=scheduler.bind-address=0.0.0.0 --extra-config=controller-manager.bind-address=0.0.0.0  --docker-opt="default-ulimit=nofile=102400:102400"
+	#minikube start --memory=20g --cpus=8 --bootstrapper=kubeadm --extra-config=kubelet.authentication-token-webhook=true --extra-config=kubelet.authorization-mode=Webhook --extra-config=scheduler.bind-address=0.0.0.0 --extra-config=controller-manager.bind-address=0.0.0.0
 	minikube ssh "sudo sysctl -w vm.max_map_count=262144" # VM restart might be needed
 
 .PHONY: deploy-monitoring
@@ -33,3 +34,7 @@ port-forward-grafana:
 .PHONY: port-forward-opensearch
 port-forward-opensearch:
 	kubectl port-forward svc/opensearch-cluster-master 9200:9200 -n test-opensearch
+
+.PHONY: port-forward-jaeger-test-opensearch
+port-forward-jaeger-test-opensearch:
+	kubectl port-forward svc/simple-prod-query 16686:16686 -n test-opensearch
