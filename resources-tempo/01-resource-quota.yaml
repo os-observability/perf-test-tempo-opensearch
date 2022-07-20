@@ -1,0 +1,8 @@
+kind: ResourceQuota
+apiVersion: v1
+metadata:
+  name: pods-high
+spec:
+  hard:
+    cpu: "4000"
+    memory: 10Gi

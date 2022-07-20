@@ -1,0 +1,10 @@
+rootUser: tempo
+rootPassword: supersecret
+resources:
+  requests:
+    memory: 256Mi
+buckets:
+  - name: tempo
+    policy: none
+    purge: false
+replicas: 4
