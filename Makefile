@@ -43,7 +43,7 @@ port-forward-jaeger-test-opensearch:
 port-forward-prometheus:
 	kubectl port-forward svc/prometheus-k8s 9090:9090 -n monitoring
 
-.PHONY: deploy-tempo
+.PHONY: deploy-test-tempo
 deploy-test-tempo:
 	kubectl create namespace test-tempo || true
 	helm repo add minio https://charts.min.io/
