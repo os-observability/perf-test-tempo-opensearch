@@ -56,3 +56,13 @@ deploy-test-tempo:
 .PHONY: port-forward-jaeger-test-tempo
 port-forward-jaeger-test-tempo:
 	kubectl port-forward svc/tempo-cluster-tempo-distributed-query-frontend-discovery 16686:16686  -n test-tempo
+
+.PHONY deploy-tracegen-tempo:
+deploy-tracegen-tempo:
+	kubectl create namespace tracegen || true
+	sed 's/#COLLECTOR_URL#/http:\/\/tempo-cluster-tempo-distributed-distributor.test-tempo.svc:14268/' load-generator.yaml | kubectl apply -n tracegen -f -
+
+.PHONY deploy-tracegen-opensearch:
+deploy-tracegen-opensearch:
+	kubectl create namespace tracegen || true
+	sed 's/#COLLECTOR_URL#/http:\/\/simple-prod-collector-headless.test-opensearch.svc:14268/' load-generator.yaml | kubectl apply -n tracegen -f -
