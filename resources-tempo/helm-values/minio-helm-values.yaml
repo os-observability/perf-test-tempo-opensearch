@@ -2,7 +2,13 @@ rootUser: tempo
 rootPassword: supersecret
 resources:
   requests:
-    memory: 256Mi
+    # 1000m equals to 1 CPU
+    cpu: "1000m"
+    memory: "100Mi"
+  limits:
+    cpu: "1000m"
+    memory: "1000Mi"
+    
 buckets:
   - name: tempo
     policy: none
