@@ -125,9 +125,9 @@ func (queryExecutor queryExecutor) run() error {
 		Timeout: time.Minute * 15,
 	}
 	reqHist := promauto.NewHistogram(prometheus.HistogramOpts{
-		Namespace: "query_load_test",
-		Subsystem: queryExecutor.namespace,
-		Name:      queryExecutor.name,
+		Namespace:   "query_load_test",
+		Name:        queryExecutor.namespace,
+		ConstLabels: prometheus.Labels{"name": queryExecutor.name},
 	})
 
 	log.Printf("Going to run: %v\n", req)
