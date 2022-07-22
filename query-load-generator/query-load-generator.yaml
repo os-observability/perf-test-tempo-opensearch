@@ -104,7 +104,7 @@ spec:
             - name: QUERY_FILE
               value: /config-file/queries.txt
             - name: QUERY_LOOKBACK
-              value: 2h
+              value: 1h
             - name: QUERY_DELAY
               value: 2s
       volumes:

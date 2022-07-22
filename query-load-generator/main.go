@@ -61,7 +61,6 @@ func main() {
 		log.Fatalf("could not open query file: %v", err)
 	}
 	for _, s := range queries {
-		log.Println(s)
 		split := strings.Split(s, "|")
 		if len(split) != 2 {
 			log.Fatalf("query file has incorrect format, correct is e.g.: name|/api/traces?foo=bar")
@@ -122,9 +121,8 @@ func (queryExecutor queryExecutor) run() error {
 	q.Add("start", fmt.Sprintf("%d", time.Now().Add(-queryExecutor.lookBack).UnixMicro()))
 	req.URL.RawQuery = q.Encode()
 
-	log.Printf("Going to run: %v\n", req)
 	client := http.Client{
-		Timeout: time.Minute * 5,
+		Timeout: time.Minute * 15,
 	}
 	reqHist := promauto.NewHistogram(prometheus.HistogramOpts{
 		Namespace: "query_load_test",
@@ -132,6 +130,7 @@ func (queryExecutor queryExecutor) run() error {
 		Name:      queryExecutor.name,
 	})
 
+	log.Printf("Going to run: %v\n", req)
 	ticker := time.NewTicker(time.Duration(rand.Int63n(int64(queryExecutor.delay))))
 	go func() {
 		for {
@@ -142,11 +141,19 @@ func (queryExecutor queryExecutor) run() error {
 				if err != nil {
 					log.Fatalf("error making http request: %v", err)
 				}
-				reqHist.Observe(time.Since(start).Seconds())
+				queryDuration := time.Since(start).Seconds()
+				reqHist.Observe(queryDuration)
 				if res.StatusCode >= 300 {
 					log.Fatalf("Query failed: req: %v, res: %v", req, res)
 				}
-				log.Printf("%s --> %v\n", req.URL.RawQuery, res)
+				log.Printf("%s took %f seconds --> %v\n", req.URL.RawQuery, queryDuration, res)
+
+				// update times
+				q.Add("end", fmt.Sprintf("%d", time.Now().UnixMicro()))
+				q.Add("start", fmt.Sprintf("%d", time.Now().Add(-queryExecutor.lookBack).UnixMicro()))
+				req.URL.RawQuery = q.Encode()
+
+				// run with different delay
 				ticker.Reset(time.Duration(rand.Int63n(int64(queryExecutor.delay))))
 			}
 		}
