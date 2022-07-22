@@ -1,0 +1,16 @@
+rootUser: tempo
+rootPassword: supersecret
+resources:
+  requests:
+    # 1000m equals to 1 CPU
+    cpu: "1000m"
+    memory: "100Mi"
+  limits:
+    cpu: "1000m"
+    memory: "1000Mi"
+    
+buckets:
+  - name: tempo
+    policy: none
+    purge: false
+replicas: 4

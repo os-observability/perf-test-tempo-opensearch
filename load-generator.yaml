@@ -425,7 +425,8 @@ spec:
               readOnly: true
           env:
             - name: JAEGER_COLLECTOR_URL
-              value: http://simple-prod-collector-headless.test-opensearch.svc:14268
+              value: #COLLECTOR_URL#
+#              value: http://simple-prod-collector-headless.test-opensearch.svc:14268
 #            - name: ZIPKINV2_JSON_URL
 #              value: http://simple-prod-collector.test-opensearch.svc:9411
             - name: TOPOLOGY_FILE
