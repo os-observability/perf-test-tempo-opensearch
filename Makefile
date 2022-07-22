@@ -27,6 +27,11 @@ deploy-test-opensearch:
 	helm install opensearch-cluster -f opensearch-helm-values.yaml --namespace test-opensearch opensearch/opensearch --version 1.13.0 || true
 	kubectl apply -f ./resources-opensearch -n test-opensearch
 
+.PHONY: deploy-query-load-generator
+deploy-query-load-generator:
+	kubectl create configmap queries --from-file=./query-load-generator/queries.txt -o yaml --dry-run | kubectl replace -f -
+	kubectl apply -f ./query-load-generator
+
 .PHONY: port-forward-grafana
 port-forward-grafana:
 	kubectl port-forward svc/grafana 3000:3000 -n monitoring

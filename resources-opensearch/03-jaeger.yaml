@@ -9,15 +9,17 @@ spec:
       cpu: 100m
       memory: 100Mi
   collector:
-    replicas: 5
+    replicas: 2
     options:
-      collector.num-workers: 5000
+      # default is 50
+      collector.num-workers: 20
+      # default is 2000
       # for 400k memory is ~1463Mi
-      collector.queue-size: 400000
+      collector.queue-size: 4000
       es.num-shards: 3
       es.num-replicas: 1
       # default 1
-      es.bulk.workers: 10
+      es.bulk.workers: 150
       # default 5000000
       es.bulk.size: 5000000
       # default 1000
