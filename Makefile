@@ -30,7 +30,7 @@ deploy-test-opensearch:
 .PHONY: deploy-query-load-generator
 deploy-query-load-generator:
 	kubectl create configmap queries --from-file=./query-load-generator/queries.txt -o yaml --dry-run | kubectl replace -f -
-	kubectl apply -f ./query-load-generator
+	kubectl apply -f ./query-load-generator/query-load-generator.yaml
 
 .PHONY: port-forward-grafana
 port-forward-grafana:
