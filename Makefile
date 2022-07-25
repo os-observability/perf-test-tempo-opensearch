@@ -70,4 +70,4 @@ deploy-tracegen-tempo:
 .PHONY: deploy-tracegen-opensearch
 deploy-tracegen-opensearch:
 	kubectl create namespace tracegen || true
-	sed 's/#COLLECTOR_URL#/http:\/\/simple-prod-collector-headless.test-opensearch.svc:14268/' load-generator.yaml | kubectl apply -n tracegen -f -
+	sed 's/#COLLECTOR_URL#/http:\/\/simple-prod-collector.test-opensearch.svc:14268/' load-generator.yaml | kubectl apply -n tracegen -f -
