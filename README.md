@@ -38,7 +38,7 @@ kubectl top pod -n test-opensearch
 Max ingestion rate for a single jaeger-collector? / When ES will start dropping data?
 
 no drop (some here and there) 4500 spans/s
-```
+```bash
       # default is 50
       collector.num-workers: 20
       # default is 2000
@@ -55,6 +55,65 @@ no drop (some here and there) 4500 spans/s
       # default 200ms
 ```
 
+no drop 4300 spans/s
+```bash
+      # default is 50
+      collector.num-workers: 20
+      # default is 2000
+      # for 400k memory is ~1463Mi
+      collector.queue-size: 4000
+      es.num-shards: 3
+      es.num-replicas: 1
+      # default 1
+      es.bulk.workers: 2000
+      # default 5000000
+      es.bulk.size: 5000000
+      # default 1000
+      es.bulk.actions: 1000
+      # default 200ms
+      es.bulk.flush-interval: 200ms
+```
+
+No drop as well
+```bash
+      # default is 50
+      collector.num-workers: 20
+      # default is 2000
+      # for 400k memory is ~1463Mi
+      collector.queue-size: 4000
+      es.num-shards: 3
+      es.num-replicas: 1
+      # default 1
+      es.bulk.workers: 150
+      # default 5000000
+      es.bulk.size: 5000000
+      # default 1000
+      es.bulk.actions: 1000
+      # default 200ms
+      es.bulk.flush-interval: 200ms
+```
+
+no drop 4400 spans/s. 
+
+```bash
+    replicas: 1
+    options:
+      # default is 50
+      collector.num-workers: 20
+      # default is 2000
+      # for 400k memory is ~1463Mi
+      collector.queue-size: 4000
+      es.num-shards: 3
+      es.num-replicas: 1
+      # default 1
+      es.bulk.workers: 150
+      # default 5000000
+      es.bulk.size: 5000000
+      # default 1000
+      es.bulk.actions: 1000
+      # default 200ms
+      es.bulk.flush-interval: 200ms
+```
 
 ## Related links
 * Grafana Tempo capacity planning https://github.com/grafana/tempo/issues/1540
