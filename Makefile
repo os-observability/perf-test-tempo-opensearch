@@ -27,10 +27,6 @@ deploy-test-opensearch:
 	helm install opensearch-cluster -f opensearch-helm-values.yaml --namespace test-opensearch opensearch/opensearch --version 1.13.0 || true
 	kubectl apply -f ./resources-opensearch -n test-opensearch
 
-.PHONY: deploy-query-load-generator
-deploy-query-load-generator:
-	kubectl create configmap queries --from-file=./query-load-generator/queries.txt -o yaml --dry-run | kubectl replace -f -
-	kubectl apply -f ./query-load-generator/query-load-generator.yaml
 
 .PHONY: port-forward-grafana
 port-forward-grafana:
@@ -68,6 +64,12 @@ deploy-tracegen-tempo:
 	sed 's/#COLLECTOR_URL#/http:\/\/tempo-cluster-tempo-distributed-distributor.test-tempo.svc:14268/' load-generator.yaml | kubectl apply -n tracegen -f -
 
 .PHONY: deploy-tracegen-opensearch
-deploy-tracegen-opensearch:
+deploy-tracegen-opensearch: deploy-query-load-generator
 	kubectl create namespace tracegen || true
 	sed 's/#COLLECTOR_URL#/http:\/\/simple-prod-collector.test-opensearch.svc:14268/' load-generator.yaml | kubectl apply -n tracegen -f -
+
+.PHONY: deploy-query-load-generator
+deploy-query-load-generator:
+	kubectl create namespace tracegen || true
+	kubectl create configmap queries --from-file=./query-load-generator/queries.txt -n tracegen || true
+	kubectl apply -f ./query-load-generator/query-load-generator.yaml -n tracegen
