@@ -27,6 +27,20 @@ deploy-test-opensearch:
 	helm install opensearch-cluster -f opensearch-helm-values.yaml --namespace test-opensearch opensearch/opensearch --version 1.13.0 || true
 	kubectl apply -f ./resources-opensearch -n test-opensearch
 
+.PHONY: deploy-opensearch-query-load-generator
+deploy-opensearch-query-load-generator:
+	kubectl create configmap queries --from-file=./query-load-generator/queries.txt -o yaml --dry-run=client | kubectl apply -f -
+	sed 's/#COLLECTOR_URL#/http:\/\/simple-prod-query.test-opensearch.svc:16686/' query-load-generator/query-load-generator.yaml \
+	| sed 's/#NAMESPACE#/opensearch/'\
+	| kubectl apply -f -
+
+
+.PHONY: deploy-tempo-query-load-generator
+deploy-tempo-query-load-generator:
+	kubectl create configmap queries --from-file=./query-load-generator/queries.txt -o yaml --dry-run=client | kubectl apply -f -
+	sed 's/#COLLECTOR_URL#/http:\/\/tempo-cluster-tempo-distributed-query-frontend.test-tempo.svc:16686/' query-load-generator/query-load-generator.yaml \
+	| sed 's/#NAMESPACE#/tempo/'\
+	| kubectl apply -f -
 
 .PHONY: port-forward-grafana
 port-forward-grafana:
@@ -57,7 +71,7 @@ deploy-test-tempo:
 
 .PHONY: port-forward-jaeger-test-tempo
 port-forward-jaeger-test-tempo:
-	kubectl port-forward svc/tempo-cluster-tempo-distributed-query-frontend-discovery 16686:16686  -n test-tempo
+	kubectl port-forward svc/tempo-cluster-tempo-distributed-query-frontend 16686:16686  -n test-tempo
 
 .PHONY: deploy-tracegen-tempo
 deploy-tracegen-tempo:

@@ -1,6 +1,8 @@
 ---
 memcached:
   enabled: false
+search:
+  enabled: true
 traces:
   jaeger:
     thriftHttp:
