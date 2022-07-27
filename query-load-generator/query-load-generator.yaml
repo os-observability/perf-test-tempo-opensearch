@@ -106,7 +106,7 @@ spec:
             - name: QUERY_LOOKBACK
               value: 1h
             - name: QUERY_DELAY
-              value: 2s
+              value: 10s
       volumes:
         - name: config-file
           configMap:

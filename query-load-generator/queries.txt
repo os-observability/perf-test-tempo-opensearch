@@ -1,5 +1,3 @@
 adservice_limit20|/api/traces?limit=20&maxDuration&minDuration&service=adservice
 adservice_limit30|/api/traces?limit=30&maxDuration&minDuration&service=adservice
-adservice_limit1500|/api/traces?limit=1500&maxDuration&minDuration&service=adservice
-frontend_limit50|/api/traces?limit=50&maxDuration&minDuration&service=frontend
-spanfilter3_limit100_one_tag|/api/traces?limit=100&lookback=1h&maxDuration&minDuration&service=spanFiller3&tags={"http.url":"http://spanFiller3/3"}
+spanfilter3_limit50_one_tag|/api/traces?limit=50&lookback=1h&maxDuration&minDuration&service=spanFiller3&tags={"http.url":"http://spanFiller3/3"}
