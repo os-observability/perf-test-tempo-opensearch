@@ -29,16 +29,16 @@ deploy-test-opensearch:
 
 .PHONY: deploy-opensearch-query-load-generator
 deploy-opensearch-query-load-generator:
-	kubectl create configmap queries --from-file=./query-load-generator/queries.txt -o yaml --dry-run=client | kubectl apply -f -
-	sed 's/#COLLECTOR_URL#/http:\/\/simple-prod-query.test-opensearch.svc:16686/' query-load-generator/query-load-generator.yaml \
+	kubectl create namespace tracegen || true
+	kubectl create configmap queries --from-file=./query-load-generator/queries.txt -o yaml --dry-run=client | kubectl apply -n tracegen -f -
+	sed 's/#QUERY_URL#/http:\/\/simple-prod-query.test-opensearch.svc:16686/' query-load-generator/query-load-generator.yaml \
 	| sed 's/#NAMESPACE#/opensearch/'\
-	| kubectl apply -f -
-
+	| kubectl apply -n tracegen -f -
 
 .PHONY: deploy-tempo-query-load-generator
 deploy-tempo-query-load-generator:
 	kubectl create configmap queries --from-file=./query-load-generator/queries.txt -o yaml --dry-run=client | kubectl apply -f -
-	sed 's/#COLLECTOR_URL#/http:\/\/tempo-cluster-tempo-distributed-query-frontend.test-tempo.svc:16686/' query-load-generator/query-load-generator.yaml \
+	sed 's/#QUERY_URL#/http:\/\/tempo-cluster-tempo-distributed-query-frontend.test-tempo.svc:16686/' query-load-generator/query-load-generator.yaml \
 	| sed 's/#NAMESPACE#/tempo/'\
 	| kubectl apply -f -
 
@@ -73,18 +73,13 @@ deploy-test-tempo:
 port-forward-jaeger-test-tempo:
 	kubectl port-forward svc/tempo-cluster-tempo-distributed-query-frontend 16686:16686  -n test-tempo
 
+.PHONY: deploy-tracegen-opensearch
+deploy-tracegen-opensearch: deploy-opensearch-query-load-generator
+	kubectl create namespace tracegen || true
+	sed 's/#COLLECTOR_URL#/http:\/\/simple-prod-collector.test-opensearch.svc:14268/' load-generator.yaml | kubectl apply -n tracegen -f -
+
+
 .PHONY: deploy-tracegen-tempo
 deploy-tracegen-tempo:
 	kubectl create namespace tracegen || true
 	sed 's/#COLLECTOR_URL#/http:\/\/tempo-cluster-tempo-distributed-distributor.test-tempo.svc:14268/' load-generator.yaml | kubectl apply -n tracegen -f -
-
-.PHONY: deploy-tracegen-opensearch
-deploy-tracegen-opensearch: deploy-query-load-generator
-	kubectl create namespace tracegen || true
-	sed 's/#COLLECTOR_URL#/http:\/\/simple-prod-collector.test-opensearch.svc:14268/' load-generator.yaml | kubectl apply -n tracegen -f -
-
-.PHONY: deploy-query-load-generator
-deploy-query-load-generator:
-	kubectl create namespace tracegen || true
-	kubectl create configmap queries --from-file=./query-load-generator/queries.txt -n tracegen || true
-	kubectl apply -f ./query-load-generator/query-load-generator.yaml -n tracegen

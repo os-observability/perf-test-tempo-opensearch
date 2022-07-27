@@ -98,7 +98,7 @@ spec:
               name: metrics
           env:
             - name: JAEGER_QUERY_ENDPOINT
-              value: #COLLECTOR_URL#
+              value: #QUERY_URL#
               # value: http://simple-prod-query.test-opensearch.svc:16686
             - name: NAMESPACE
               value: #NAMESPACE#
