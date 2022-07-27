@@ -34,6 +34,7 @@ port-forward-grafana:
 
 .PHONY: port-forward-opensearch
 port-forward-opensearch:
+	#http://localhost:9200/_cat/indices?v=true
 	kubectl port-forward svc/opensearch-cluster-master 9200:9200 -n test-opensearch
 
 .PHONY: port-forward-jaeger-test-opensearch
