@@ -19,7 +19,7 @@ spec:
       es.num-shards: 3
       es.num-replicas: 1
       # default 1
-      es.bulk.workers: 150
+      es.bulk.workers: 100
       # default 5000000
       es.bulk.size: 5000000
       # default 1000
