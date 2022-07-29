@@ -24,7 +24,7 @@ deploy-test-opensearch:
 	kubectl create namespace test-opensearch || true
 	helm repo add opensearch https://opensearch-project.github.io/helm-charts/
 	# deploy OpenSearch 1.3.3
-	helm install opensearch-cluster -f opensearch-helm-values.yaml --namespace test-opensearch opensearch/opensearch --version 1.13.0 || true
+	helm install opensearch-cluster -f ./resources-opensearch/helm-values/opensearch-helm-values.yaml --namespace test-opensearch opensearch/opensearch --version 1.13.0 || true
 	kubectl apply -f ./resources-opensearch -n test-opensearch
 
 .PHONY: deploy-opensearch-query-load-generator

@@ -494,6 +494,189 @@ simple-prod-query-fb8dd9f84-nnkng        126m         125Mi
 
 ```
 
+#### 8 
+2781.01 per second -- dropping spans 1500 spans/sec
+
+```bash
+      "rootRoutes": [
+        {
+          "service": "frontend",
+          "route": "/product",
+          "tracesPerHour": 50000
+        },
+        {
+          "service": "frontend",
+          "route": "/alt_product_0",
+          "tracesPerHour": 50000
+        },
+        {
+          "service": "frontend",
+          "route": "/alt_product_1",
+          "tracesPerHour": 50000
+        },
+        {
+          "service": "frontend",
+          "route": "/alt_product_2",
+          "tracesPerHour": 50000
+        }
+      ]
+      
+          replicas: 1
+    options:
+      # default is 50
+      collector.num-workers: 20
+      # default is 2000
+      # for 400k memory is ~1463Mi
+      collector.queue-size: 4000
+      es.num-shards: 3
+      es.num-replicas: 1
+      # default 1
+      es.bulk.workers: 100
+      # default 5000000
+      es.bulk.size: 5000000
+      # default 1000
+      es.bulk.actions: 1000
+      # default 200ms
+      es.bulk.flush-interval: 200ms
+      
+      opensearch-cluster-master-0              609m         876Mi
+opensearch-cluster-master-1              736m         878Mi
+opensearch-cluster-master-2              1199m        879Mi
+simple-prod-collector-5c4bc6578b-8xmdg   219m         756Mi
+simple-prod-query-fb8dd9f84-ch6z9        13m          40Mi
+```
+
+#### 9
+
+2778.87 per second - no dropping spans (only at init-time), query running
+
+```bash
+      "rootRoutes": [
+        {
+          "service": "frontend",
+          "route": "/product",
+          "tracesPerHour": 50000
+        },
+        {
+          "service": "frontend",
+          "route": "/alt_product_0",
+          "tracesPerHour": 50000
+        },
+        {
+          "service": "frontend",
+          "route": "/alt_product_1",
+          "tracesPerHour": 50000
+        },
+        {
+          "service": "frontend",
+          "route": "/alt_product_2",
+          "tracesPerHour": 50000
+        }
+      ]
+      
+        collector:
+    replicas: 1
+    options:
+      # default is 50
+      collector.num-workers: 20
+      # default is 2000
+      # for 400k memory is ~1463Mi
+      collector.queue-size: 4000
+      es.num-shards: 3
+      es.num-replicas: 1
+      # default 1
+      es.bulk.workers: 100
+      # default 5000000
+      es.bulk.size: 5000000
+      # default 1000
+      es.bulk.actions: 1000
+      # default 200ms
+      es.bulk.flush-interval: 200ms
+      
+      NAME                                     CPU(cores)   MEMORY(bytes)
+opensearch-cluster-master-0              753m         785Mi
+opensearch-cluster-master-1              409m         787Mi
+opensearch-cluster-master-2              618m         863Mi
+simple-prod-collector-5c4bc6578b-6qgct   195m         126Mi
+simple-prod-query-fb8dd9f84-fn4nw        5m           91Mi
+
+ES
+resources:
+  requests:
+    # 1000m equals to 1 CPU
+    cpu: "1000m"
+    memory: "100Mi"
+  limits:
+    cpu: "1500m"
+    memory: "1000Mi"
+
+```
+
+#### 10
+
+3328.41 per second - not droppings spans (only at init time), query running
+
+```bash
+      "rootRoutes": [
+        {
+          "service": "frontend",
+          "route": "/product",
+          "tracesPerHour": 60000
+        },
+        {
+          "service": "frontend",
+          "route": "/alt_product_0",
+          "tracesPerHour": 60000
+        },
+        {
+          "service": "frontend",
+          "route": "/alt_product_1",
+          "tracesPerHour": 60000
+        },
+        {
+          "service": "frontend",
+          "route": "/alt_product_2",
+          "tracesPerHour": 60000
+        }
+      
+      
+        collector:
+    replicas: 1
+    options:
+      # default is 50
+      collector.num-workers: 20
+      # default is 2000
+      # for 400k memory is ~1463Mi
+      collector.queue-size: 4000
+      es.num-shards: 3
+      es.num-replicas: 1
+      # default 1
+      es.bulk.workers: 100
+      # default 5000000
+      es.bulk.size: 5000000
+      # default 1000
+      es.bulk.actions: 1000
+      # default 200ms
+      es.bulk.flush-interval: 200ms
+      
+      NAME                                     CPU(cores)   MEMORY(bytes)
+opensearch-cluster-master-0              753m         871Mi
+opensearch-cluster-master-1              443m         758Mi
+opensearch-cluster-master-2              679m         795Mi
+simple-prod-collector-5c4bc6578b-pntwj   275m         116Mi
+simple-prod-query-fb8dd9f84-8xvdp        8m           68Mi
+
+ES
+resources:
+  requests:
+    # 1000m equals to 1 CPU
+    cpu: "1000m"
+    memory: "100Mi"
+  limits:
+    cpu: "1500m"
+    memory: "1000Mi"
+```
+
 ## Related links
 * Grafana Tempo capacity planning https://github.com/grafana/tempo/issues/1540
 * Grafana Mimir capacity planning https://github.com/grafana/mimir/issues/1988
