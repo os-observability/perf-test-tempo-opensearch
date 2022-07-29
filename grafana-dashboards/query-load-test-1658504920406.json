@@ -24,29 +24,23 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 29,
+  "id": 28,
   "links": [],
   "liveNow": false,
   "panels": [
     {
+      "cards": {},
+      "color": {
+        "cardColor": "#b4ff00",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.5,
+        "mode": "spectrum"
+      },
+      "dataFormat": "tsbuckets",
       "datasource": {
         "type": "prometheus",
         "uid": "P1809F7CD0C75ACF3"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "custom": {
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "scaleDistribution": {
-              "type": "linear"
-            }
-          }
-        },
-        "overrides": []
       },
       "gridPos": {
         "h": 9,
@@ -54,40 +48,15 @@
         "x": 0,
         "y": 0
       },
+      "heatmap": {},
+      "hideZeroBuckets": false,
+      "highlightCards": true,
       "id": 2,
-      "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "exponent": 0.5,
-          "fill": "dark-orange",
-          "mode": "scheme",
-          "scale": "exponential",
-          "scheme": "Oranges",
-          "steps": 64
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-9
-        },
-        "legend": {
-          "show": true
-        },
-        "rowsFrame": {
-          "layout": "auto"
-        },
-        "tooltip": {
-          "show": true,
-          "yHistogram": false
-        },
-        "yAxis": {
-          "axisPlacement": "left",
-          "reverse": false
-        }
+      "legend": {
+        "show": false
       },
       "pluginVersion": "9.0.2",
+      "reverseYBuckets": false,
       "targets": [
         {
           "datasource": {
@@ -96,15 +65,88 @@
           },
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "query_load_test_opensearch_bucket",
+          "expr": "sum by(le) (query_load_test_opensearch_bucket)",
           "instant": false,
-          "legendFormat": "__auto",
+          "legendFormat": "{{le}}",
           "range": true,
           "refId": "A"
         }
       ],
       "title": "query duration histogram",
-      "type": "heatmap-new"
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
+      },
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
+      },
+      "yAxis": {
+        "format": "short",
+        "logBase": 1,
+        "show": true
+      },
+      "yBucketBound": "auto"
+    },
+    {
+      "cards": {},
+      "color": {
+        "cardColor": "#b4ff00",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.5,
+        "mode": "spectrum"
+      },
+      "dataFormat": "tsbuckets",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "heatmap": {},
+      "hideZeroBuckets": false,
+      "highlightCards": true,
+      "id": 3,
+      "legend": {
+        "show": false
+      },
+      "pluginVersion": "9.0.2",
+      "reverseYBuckets": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1809F7CD0C75ACF3"
+          },
+          "editorMode": "builder",
+          "exemplar": false,
+          "expr": "query_load_test_opensearch_bucket{name=\"adservice_limit20\"}",
+          "instant": false,
+          "legendFormat": "{{le}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "specific query duration histogram ",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
+      },
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
+      },
+      "yAxis": {
+        "format": "short",
+        "logBase": 1,
+        "show": true
+      },
+      "yBucketBound": "auto"
     }
   ],
   "schemaVersion": 36,
@@ -114,13 +156,13 @@
     "list": []
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "query-load-test",
   "uid": "FICskEg4z",
-  "version": 2,
+  "version": 3,
   "weekStart": ""
 }
