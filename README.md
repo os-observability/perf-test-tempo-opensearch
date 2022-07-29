@@ -677,6 +677,75 @@ resources:
     memory: "1000Mi"
 ```
 
+#### 11
+
+3921.49 per second - (some at init time in bulk processor, some drops in queues as well 10-150 spans/s), query running
+
+dropping quite a lot (1400-2200 spans/s) even with two collectors (50 workers each) or a single collector 120 workers
+
+```bash
+     "rootRoutes": [
+        {
+          "service": "frontend",
+          "route": "/product",
+          "tracesPerHour": 70000
+        },
+        {
+          "service": "frontend",
+          "route": "/alt_product_0",
+          "tracesPerHour": 70000
+        },
+        {
+          "service": "frontend",
+          "route": "/alt_product_1",
+          "tracesPerHour": 70000
+        },
+        {
+          "service": "frontend",
+          "route": "/alt_product_2",
+          "tracesPerHour": 70000
+        }
+      ]
+      
+        collector:
+    replicas: 1
+    options:
+      # default is 50
+      collector.num-workers: 20
+      # default is 2000
+      # for 400k memory is ~1463Mi
+      collector.queue-size: 4000
+      es.num-shards: 3
+      es.num-replicas: 1
+      # default 1
+      es.bulk.workers: 100
+      # default 5000000
+      es.bulk.size: 5000000
+      # default 1000
+      es.bulk.actions: 1000
+      # default 200ms
+      es.bulk.flush-interval: 200ms
+      
+NAME                                     CPU(cores)   MEMORY(bytes)
+opensearch-cluster-master-0              513m         777Mi
+opensearch-cluster-master-1              978m         856Mi
+opensearch-cluster-master-2              813m         822Mi
+simple-prod-collector-5c4bc6578b-bxnmz   449m         162Mi
+simple-prod-query-fb8dd9f84-sptsc        7m           53Mi
+      
+
+      ES
+      resources:
+  requests:
+    # 1000m equals to 1 CPU
+    cpu: "1000m"
+    memory: "100Mi"
+  limits:
+    cpu: "1500m"
+    memory: "1000Mi"
+```
+
+
 ## Related links
 * Grafana Tempo capacity planning https://github.com/grafana/tempo/issues/1540
 * Grafana Mimir capacity planning https://github.com/grafana/mimir/issues/1988
