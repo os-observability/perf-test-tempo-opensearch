@@ -62,8 +62,9 @@ port-forward-prometheus:
 .PHONY: deploy-test-tempo
 deploy-test-tempo:
 	kubectl create namespace test-tempo || true
+	kubectl create namespace minio || true
 	helm repo add minio https://charts.min.io/
-	helm install minio -f resources-tempo/helm-values/minio-helm-values.yaml --namespace test-tempo minio/minio --version 4.0.5 || true
+	helm install minio -f resources-tempo/helm-values/minio-helm-values.yaml --namespace minio minio/minio --version 4.0.5 || true
 	helm repo add grafana https://grafana.github.io/helm-charts
 	helm install tempo-cluster -f resources-tempo/helm-values/tempo-helm-values.yaml --namespace test-tempo grafana/tempo-distributed --version 0.21.6 || true
 	kubectl apply -f ./resources-tempo -n test-tempo
@@ -72,6 +73,10 @@ deploy-test-tempo:
 .PHONY: port-forward-jaeger-test-tempo
 port-forward-jaeger-test-tempo:
 	kubectl port-forward svc/tempo-cluster-tempo-distributed-query-frontend 16686:16686  -n test-tempo
+
+.PHONY: port-forward-minio
+port-forward-minio:
+	kubectl port-forward minio-0 9001 --namespace minio
 
 .PHONY: deploy-tracegen-opensearch
 deploy-tracegen-opensearch: deploy-opensearch-query-load-generator
