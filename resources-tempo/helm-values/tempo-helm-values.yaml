@@ -15,40 +15,40 @@ tempo:
       max_traces_per_user: 50000000
       max_bytes_per_tag_values_query: 15000000000
 ingester:
-  replicas: 2
+  replicas: 1
   config:
     replication_factor: 1
   resources:
     requests:
-      cpu: 100m
-      memory: 400Mi
-  limits:
-    cpu: "100m"
-    memory: "400Mi"
+      cpu: 1000m
+      memory: 1500Mi
+    limits:
+      cpu: "1000m"
+      memory: "1500Mi"
 distributor:
-  replicas: 2
+  replicas: 1
   affinity: {}
   resources:
     requests:
-      cpu: 100m
-      memory: 400Mi
-  limits:
-    cpu: "100m"
-    memory: "400Mi"
+      cpu: 1000m
+      memory: 1500Mi
+    limits:
+      cpu: "1000m"
+      memory: "1500Mi"
 querier:
   resources:
     requests:
-      cpu: 100m
-      memory: 400Mi
-  limits:
-    cpu: "100m"
-    memory: "400Mi"
+      cpu: 800m
+      memory: 500Mi
+    limits:
+      cpu: "800m"
+      memory: "500Mi"
 storage:
   trace:
     backend: "s3"
     s3:
       access_key: tempo
       bucket: tempo
-      endpoint: minio:9000
+      endpoint: minio.minio.svc:9000
       insecure: true
       secret_key: supersecret
