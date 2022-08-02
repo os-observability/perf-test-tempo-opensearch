@@ -43,11 +43,25 @@ The ideal total number of bulk works in an instance could be around 150.
 
 ## Results
 
+The tests were using 3 node OpenSearch cluster with 3 primary and 1 replica shards. Xmx and Xms are set to half of the pod RAM amount.
+
+### Aggregated results
+
+#### OpenSearch 3x{1GB, 1000m}
+
+1650 spans/second (see the run number #3).
+
+Increasing memory to 1.5GB did not increase ingestion rate.
+
+#### OpenSearch 3x {1GB, 1500m}
+
+3328.41 spans/second (see the number #10). Some spans were dropped at the beginning (5-10 initial minutes).
+
 ### 1
 No dropping 2200 spans/s
 
 - after 1.5h it started dropping data (with queries)
-- with queries it is dropping around 600-1000 spans/s
+- with queries, it is dropping around 600-1000 spans/s
 
 ```bash
       "rootRoutes": [
@@ -256,7 +270,7 @@ simple-prod-query-fb8dd9f84-d72ng	10m          67Mi
 
 ### 5
 
-1963.22 per second dropping around 100 spans in the collector queue, but the bulk processor is dropping spans as well
+1963.22 per second dropping around 100 spans (up to 800 spans/sec) in the collector queue, but the bulk processor is dropping spans as well
 
 ```bash
       "rootRoutes": [
@@ -363,6 +377,16 @@ opensearch-cluster-master-2              321m         863Mi
 simple-prod-collector-5c4bc6578b-tm2f8   152m         94Mi
 simple-prod-query-fb8dd9f84-nnkng        12m          54Mi
 
+      ES - should it be here?
+      resources:
+  requests:
+    # 1000m equals to 1 CPU
+    cpu: "1000m"
+    memory: "100Mi"
+  limits:
+    cpu: "1500m"
+    memory: "1000Mi"
+
 ```
 
 ### 7
@@ -417,6 +441,17 @@ opensearch-cluster-master-1              725m         791Mi
 opensearch-cluster-master-2              902m         774Mi
 simple-prod-collector-5c4bc6578b-tm2f8   230m         109Mi
 simple-prod-query-fb8dd9f84-nnkng        126m         125Mi
+
+
+      ES - should it be here?
+      resources:
+  requests:
+    # 1000m equals to 1 CPU
+    cpu: "1000m"
+    memory: "100Mi"
+  limits:
+    cpu: "1500m"
+    memory: "1000Mi"
 
 ```
 
