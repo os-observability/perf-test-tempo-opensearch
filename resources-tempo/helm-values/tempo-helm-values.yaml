@@ -51,14 +51,6 @@ queryFrontend:
     limits:
       cpu: "200m"
       memory: "120Mi"
-  query:
-    resources:
-      requests:
-        cpu: 200m
-        memory: 120Mi
-      limits:
-        cpu: "200m"
-        memory: "120Mi"
 storage:
   trace:
     backend: "s3"
