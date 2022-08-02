@@ -20,29 +20,29 @@ ingester:
     replication_factor: 1
   resources:
     requests:
-      cpu: 400m
-      memory: 400Mi
+      cpu: 1000m
+      memory: 1500Mi
     limits:
-      cpu: "400m"
-      memory: "400Mi"
+      cpu: "1000m"
+      memory: "1500Mi"
 distributor:
   replicas: 1
   affinity: {}
   resources:
     requests:
-      cpu: 400m
-      memory: 400Mi
+      cpu: 1000m
+      memory: 1500Mi
     limits:
-      cpu: "400m"
-      memory: "400Mi"
+      cpu: "1000m"
+      memory: "1500Mi"
 querier:
   resources:
     requests:
-      cpu: 400m
-      memory: 400Mi
+      cpu: 800m
+      memory: 500Mi
     limits:
-      cpu: "400m"
-      memory: "400Mi"
+      cpu: "800m"
+      memory: "500Mi"
 storage:
   trace:
     backend: "s3"
