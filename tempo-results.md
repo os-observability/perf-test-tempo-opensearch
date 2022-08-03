@@ -354,3 +354,28 @@ querier:
           "tracesPerHour": 40000
 ```
 
+## Pavol's results
+
+### 1
+6235.88 per second (110000) - dropping 0 - 1500 spans/second
+
+```bash
+NAME                                                              CPU(cores)   MEMORY(bytes)
+tempo-cluster-tempo-distributed-compactor-5b7f974d84-fft65        7m           91Mi
+tempo-cluster-tempo-distributed-distributor-f74756d48-xfntk	  170m         1232Mi
+tempo-cluster-tempo-distributed-ingester-0                        1111m        1497Mi
+tempo-cluster-tempo-distributed-querier-877c8d59c-9dl7s           177m         499Mi
+tempo-cluster-tempo-distributed-query-frontend-6c64bf5587-xvm8f   200m         220Mi
+```
+
+### 2
+5552.33 per second  - not dropping for a long time and then dropping 0-1400
+
+```bash
+NAME                                                              CPU(cores)   MEMORY(bytes)
+tempo-cluster-tempo-distributed-compactor-5b7f974d84-kz8gp        10m          110Mi
+tempo-cluster-tempo-distributed-distributor-f74756d48-4tkbt	  201m         1239Mi
+tempo-cluster-tempo-distributed-ingester-0                        623m         1498Mi
+tempo-cluster-tempo-distributed-querier-877c8d59c-78p2m           161m         499Mi
+tempo-cluster-tempo-distributed-query-frontend-598dff6967-xvhfh   159m         184Mi
+```
