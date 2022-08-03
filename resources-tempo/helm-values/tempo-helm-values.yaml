@@ -43,6 +43,14 @@ querier:
     limits:
       cpu: "800m"
       memory: "500Mi"
+queryFrontend:
+  resources:
+    requests:
+      cpu: 200m
+      memory: 120Mi
+    limits:
+      cpu: "200m"
+      memory: "120Mi"
 storage:
   trace:
     backend: "s3"

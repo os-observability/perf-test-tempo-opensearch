@@ -45,6 +45,12 @@ The ideal total number of bulk works in an instance could be around 150.
 
 The tests were using 3 node OpenSearch cluster with 3 primary and 1 replica shards. Xmx and Xms are set to half of the pod RAM amount.
 
+### Hardware
+
+* Intel(R) Core(TM) i7-9850H CPU @ 2.60GHz
+* 32 GB RAM
+* SSD SAMSUNG MZVLB512HBJQ-000L7
+
 ### Aggregated results
 
 #### OpenSearch 3x{1GB, 1000m}

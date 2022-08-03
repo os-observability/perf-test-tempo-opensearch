@@ -37,10 +37,11 @@ deploy-opensearch-query-load-generator:
 
 .PHONY: deploy-tempo-query-load-generator
 deploy-tempo-query-load-generator:
-	kubectl create configmap queries --from-file=./query-load-generator/queries.txt -o yaml --dry-run=client | kubectl apply -f -
+	kubectl create namespace tracegen || true
+	kubectl create configmap queries --from-file=./query-load-generator/queries.txt -o yaml --dry-run=client | kubectl apply -n tracegen -f -
 	sed 's/#QUERY_URL#/http:\/\/tempo-cluster-tempo-distributed-query-frontend.test-tempo.svc:16686/' query-load-generator/query-load-generator.yaml \
 	| sed 's/#NAMESPACE#/tempo/'\
-	| kubectl apply -f -
+	| kubectl apply -n tracegen -f -
 
 .PHONY: port-forward-grafana
 port-forward-grafana:
@@ -85,6 +86,6 @@ deploy-tracegen-opensearch: deploy-opensearch-query-load-generator
 
 
 .PHONY: deploy-tracegen-tempo
-deploy-tracegen-tempo:
+deploy-tracegen-tempo: deploy-tempo-query-load-generator
 	kubectl create namespace tracegen || true
 	sed 's/#COLLECTOR_URL#/http:\/\/tempo-cluster-tempo-distributed-distributor.test-tempo.svc:14268/' load-generator.yaml | kubectl apply -n tracegen -f -
