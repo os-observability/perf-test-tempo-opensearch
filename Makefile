@@ -61,12 +61,13 @@ port-forward-prometheus:
 .PHONY: deploy-test-tempo
 deploy-test-tempo:
 	kubectl create namespace test-tempo || true
+	kubectl apply -f ./resources-tempo -n test-tempo
 	kubectl create namespace minio || true
 	helm repo add minio https://charts.min.io/
 	helm install minio -f resources-tempo/helm-values/minio-helm-values.yaml --namespace minio minio/minio --version 4.0.5 || true
+	sleep 60 # wait for minio to be up
 	helm repo add grafana https://grafana.github.io/helm-charts
 	helm install tempo-cluster -f resources-tempo/helm-values/tempo-helm-values.yaml --namespace test-tempo grafana/tempo-distributed --version 0.21.6 || true
-	kubectl apply -f ./resources-tempo -n test-tempo
 
 
 .PHONY: port-forward-jaeger-test-tempo
