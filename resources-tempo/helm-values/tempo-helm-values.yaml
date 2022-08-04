@@ -9,6 +9,9 @@ traces:
       enabled: true
 tempo:
   structuredConfig:
+    query_frontend:
+      search:
+        max_duration: 72h0m0s
     overrides:
       ingestion_burst_size_bytes: 15000000000
       ingestion_rate_limit_bytes: 15000000000
