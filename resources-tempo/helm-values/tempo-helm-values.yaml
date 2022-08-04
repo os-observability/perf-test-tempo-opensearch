@@ -23,6 +23,15 @@ ingester:
   replicas: 1
   config:
     replication_factor: 1
+
+  # maximum length of time before cutting a block
+  # (default: 1h)
+  # change if needed to flush data to s3 earlier
+  #max_block_duration:
+
+  # maximum size of a block before cutting it
+  # (default: 1073741824 = 1GB)
+  #max_block_bytes:
   resources:
     requests:
       cpu: 1000m
@@ -65,6 +74,7 @@ queryFrontend:
         cpu: "200m"
         memory: "120Mi"
 storage:
+  cache: none
   trace:
     backend: "s3"
     s3:
@@ -73,3 +83,6 @@ storage:
       endpoint: minio.minio.svc:9000
       insecure: true
       secret_key: supersecret
+    blocklist_poll: 5m
+    wal:
+      path: /var/tempo/wal
