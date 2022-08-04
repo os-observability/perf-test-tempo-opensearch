@@ -135,8 +135,8 @@ func (queryExecutor queryExecutor) run() error {
 		startTimeStamp = fmt.Sprintf("%d", startTime.UnixMicro())
 	}
 
-	q.Add("end", endTimeStamp)
-	q.Add("start", startTimeStamp)
+	q.Set("end", endTimeStamp)
+	q.Set("start", startTimeStamp)
 	req.URL.RawQuery = q.Encode()
 
 	client := http.Client{
@@ -166,9 +166,16 @@ func (queryExecutor queryExecutor) run() error {
 				}
 				log.Printf("%s took %f seconds --> %v\n", req.URL.RawQuery, queryDuration, res)
 
+				if queryExecutor.tsInSeconds {
+					endTimeStamp = fmt.Sprintf("%d", endTime.Unix())
+					startTimeStamp = fmt.Sprintf("%d", startTime.Unix())
+				} else {
+					endTimeStamp = fmt.Sprintf("%d", endTime.UnixMicro())
+					startTimeStamp = fmt.Sprintf("%d", startTime.UnixMicro())
+				}
 				// update times
-				q.Add("end", fmt.Sprintf("%d", time.Now().UnixMicro()))
-				q.Add("start", fmt.Sprintf("%d", time.Now().Add(-queryExecutor.lookBack).UnixMicro()))
+				q.Set("end", endTimeStamp)
+				q.Set("start", startTimeStamp)
 				req.URL.RawQuery = q.Encode()
 
 				// run with different delay
