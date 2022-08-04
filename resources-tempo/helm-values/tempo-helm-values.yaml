@@ -9,6 +9,9 @@ traces:
       enabled: true
 tempo:
   structuredConfig:
+    storage:
+      trace:
+        cache: none
     query_frontend:
       search:
         max_duration: 72h0m0s
@@ -75,7 +78,6 @@ queryFrontend:
         memory: "120Mi"
 storage:
   trace:
-    cache: none # it still does not properly disable memcached in the ingestor
     backend: "s3"
     s3:
       access_key: tempo
