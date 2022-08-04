@@ -87,7 +87,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/pavolloffay/perf-test-tempo-opensearch/query-load-generator:2
+          image: ghcr.io/pavolloffay/perf-test-tempo-opensearch/query-load-generator:3
           imagePullPolicy: Always
           volumeMounts:
             - mountPath: /config-file
