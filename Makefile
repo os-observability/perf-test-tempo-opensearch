@@ -89,3 +89,7 @@ deploy-tracegen-opensearch: deploy-opensearch-query-load-generator
 deploy-tracegen-tempo: deploy-tempo-query-load-generator
 	kubectl create namespace tracegen || true
 	sed 's/#COLLECTOR_URL#/http:\/\/tempo-cluster-tempo-distributed-distributor.test-tempo.svc:14268/' load-generator.yaml | kubectl apply -n tracegen -f -
+
+.PHONY: port-forward-query-api-tempo
+port-forward-query-api-tempo:
+	kubectl port-forward svc/tempo-cluster-tempo-distributed-query-frontend 3100:3100  -n test-tempo
