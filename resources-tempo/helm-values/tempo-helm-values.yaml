@@ -17,6 +17,8 @@ tempo:
       ingestion_rate_limit_bytes: 15000000000
       max_traces_per_user: 50000000
       max_bytes_per_tag_values_query: 15000000000
+      # default is 5000 (5Kb), 0 means no limit
+      max_search_bytes_per_trace: 0
 ingester:
   replicas: 1
   config:
