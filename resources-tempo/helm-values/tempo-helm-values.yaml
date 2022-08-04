@@ -74,8 +74,8 @@ queryFrontend:
         cpu: "200m"
         memory: "120Mi"
 storage:
-  cache: none
   trace:
+    cache: none # it still does not properly disable memcached in the ingestor
     backend: "s3"
     s3:
       access_key: tempo
