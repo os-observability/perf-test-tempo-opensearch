@@ -1,5 +1,5 @@
 
-IMG ?= ghcr.io/pavolloffay/perf-test-tempo-opensearch/query-load-generator
+IMG ?= ghcr.io/rubenvp8510/perf-test-tempo-opensearch/query-load-generator
 VERSION ?= 2
 
 image-build:
