@@ -379,3 +379,7 @@ tempo-cluster-tempo-distributed-ingester-0                        623m         1
 tempo-cluster-tempo-distributed-querier-877c8d59c-78p2m           161m         499Mi
 tempo-cluster-tempo-distributed-query-frontend-598dff6967-xvhfh   159m         184Mi
 ```
+
+### 3
+
+5100 per second - droping all spans after some time (e.g. 45 min)
