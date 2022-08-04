@@ -8,6 +8,7 @@ import (
 	"math/rand"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -40,6 +41,15 @@ func main() {
 		log.Fatalf("failed to parse QUERY_LOOKBACK: %v", err)
 	}
 
+	timestampSecondsEnv := os.Getenv("TIMESTAMP_SECONDS")
+	tsInSeconds := false
+	if timestampSecondsEnv != "" {
+		tsInSeconds, err = strconv.ParseBool(timestampSecondsEnv)
+		if err != nil {
+			log.Fatalf("failed to parse TIMESTAMP_SECONDS: %v", err)
+		}
+	}
+
 	namespace := os.Getenv("NAMESPACE")
 	if namespace == "" {
 		log.Fatalf("NAMESPACE is not defined")
@@ -65,6 +75,7 @@ func main() {
 			query:         split[1],
 			delay:         queryDelay,
 			lookBack:      queryLookback,
+			tsInSeconds:   tsInSeconds,
 		}
 		if qs.run() != nil {
 			log.Fatalf("Could not run query executor: %v", err)
@@ -100,6 +111,7 @@ type queryExecutor struct {
 	namespace     string
 	queryEndpoint string
 	query         string
+	tsInSeconds   bool
 	delay         time.Duration
 	lookBack      time.Duration
 }
@@ -110,8 +122,21 @@ func (queryExecutor queryExecutor) run() error {
 		return err
 	}
 	q := req.URL.Query()
-	q.Add("end", fmt.Sprintf("%d", time.Now().UnixMicro()))
-	q.Add("start", fmt.Sprintf("%d", time.Now().Add(-queryExecutor.lookBack).UnixMicro()))
+	endTime := time.Now()
+	startTime := time.Now().Add(-queryExecutor.lookBack)
+
+	var endTimeStamp, startTimeStamp string
+
+	if queryExecutor.tsInSeconds {
+		endTimeStamp = fmt.Sprintf("%d", endTime.Unix())
+		startTimeStamp = fmt.Sprintf("%d", startTime.Unix())
+	} else {
+		endTimeStamp = fmt.Sprintf("%d", endTime.UnixMicro())
+		startTimeStamp = fmt.Sprintf("%d", startTime.UnixMicro())
+	}
+
+	q.Add("end", endTimeStamp)
+	q.Add("start", startTimeStamp)
 	req.URL.RawQuery = q.Encode()
 
 	client := http.Client{
