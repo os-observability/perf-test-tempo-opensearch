@@ -39,7 +39,7 @@ deploy-opensearch-query-load-generator:
 deploy-tempo-query-load-generator:
 	kubectl create namespace tracegen || true
 	kubectl create configmap queries --from-file=./query-load-generator/queries.txt -o yaml --dry-run=client | kubectl apply -n tracegen -f -
-	sed 's/#QUERY_URL#/http:\/\/tempo-cluster-tempo-distributed-query-frontend.test-tempo.svc:16686/' query-load-generator/query-load-generator.yaml \
+	sed 's/#QUERY_URL#/http:\/\/tempo-cluster-tempo-distributed-query-frontend.test-tempo.svc:3100/' query-load-generator/query-load-generator.yaml \
 	| sed 's/#NAMESPACE#/tempo/'\
 	| kubectl apply -n tracegen -f -
 
