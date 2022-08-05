@@ -386,4 +386,16 @@ tempo-cluster-tempo-distributed-query-frontend-598dff6967-xvhfh   159m         1
 
 ### 4
 
-TODO try 90000
+4998.59 per second (90000) - not dropping at all. Deployment is stable only when S3 flush interval is explicitly set to 10m.
+With default values it was crashing after e.g. 30 minutes.
+
+```bash
+NAME                                                              CPU(cores)   MEMORY(bytes)
+tempo-cluster-tempo-distributed-compactor-64bbb75f89-5lw7h        8m           195Mi
+tempo-cluster-tempo-distributed-distributor-c95c4dbc6-pbsrc	  73m          1207Mi
+tempo-cluster-tempo-distributed-ingester-0                        200m         1489Mi
+tempo-cluster-tempo-distributed-querier-7b7bfd465-9grpr           112m         282Mi
+tempo-cluster-tempo-distributed-query-frontend-56ddd7b4bc-2scl9   14m          134Mi
+```
+
+

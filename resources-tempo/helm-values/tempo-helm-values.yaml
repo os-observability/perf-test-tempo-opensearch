@@ -22,6 +22,8 @@ tempo:
       max_bytes_per_tag_values_query: 15000000000
       # default is 5000 (5Kb), 0 means no limit
       max_search_bytes_per_trace: 0
+server:
+  logLevel: debug
 ingester:
   replicas: 1
   config:

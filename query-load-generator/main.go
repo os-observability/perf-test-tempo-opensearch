@@ -165,6 +165,7 @@ func (queryExecutor queryExecutor) run() error {
 					log.Fatalf("Query failed: req: %v, res: %v", req, res)
 				}
 				log.Printf("%s took %f seconds --> %v\n", req.URL.RawQuery, queryDuration, res)
+				res.Body.Close()
 
 				if queryExecutor.tsInSeconds {
 					endTimeStamp = fmt.Sprintf("%d", endTime.Unix())

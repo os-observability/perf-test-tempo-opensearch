@@ -1,6 +1,6 @@
 
 IMG ?= ghcr.io/pavolloffay/perf-test-tempo-opensearch/query-load-generator
-VERSION ?= 3
+VERSION ?= 5
 
 image-build:
 	docker build -f Dockerfile -t ${IMG}:${VERSION} .
