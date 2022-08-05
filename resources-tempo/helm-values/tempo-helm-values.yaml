@@ -30,7 +30,7 @@ ingester:
   # maximum length of time before cutting a block
   # (default: 1h)
   # change if needed to flush data to s3 earlier
-  #max_block_duration:
+    max_block_duration: 10m
 
   # maximum size of a block before cutting it
   # (default: 1073741824 = 1GB)
@@ -52,6 +52,14 @@ distributor:
     limits:
       cpu: "1000m"
       memory: "1500Mi"
+compactor:
+  resources:
+    requests:
+      cpu: 200m
+      memory: 100Mi
+    limits:
+      cpu: "200m"
+      memory: "400Mi"
 querier:
   resources:
     requests:
