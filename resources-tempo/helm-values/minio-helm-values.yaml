@@ -13,4 +13,7 @@ buckets:
   - name: tempo
     policy: none
     purge: false
-replicas: 4
+replicas: 6
+metrics:
+  serviceMonitor:
+    enabled: true
