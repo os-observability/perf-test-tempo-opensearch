@@ -29,7 +29,7 @@ tempo:
     query_frontend:
       search:
         concurrent_jobs: 5000
-        max_duration: 72h0m0s
+        max_duration: 0
     overrides:
       ingestion_burst_size_bytes: 15000000000
       ingestion_rate_limit_bytes: 15000000000
