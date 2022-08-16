@@ -1,0 +1,38 @@
+# helm template tempo-cluster -f tempo-monolith-helm-values.yaml  --namespace test-tempo grafana/tempo --version 0.15.8  > tempo-local-manifests.yaml
+# docker run -it --rm --net=host grafana/grafana-oss
+# add Tempo or Jaeger datasource
+# http://localhost:16686/trace/7863ef3526a1b594
+# http://localhost:16686/api/traces/7863ef3526a1b594
+
+# To enable wider time range queries edit generated config map and add
+#     query_frontend:
+#      search:
+#        max_duration: 0
+
+persistence:
+  # If enabled it creates volumeClaimTemplates
+  enabled: false
+
+extraVolumes:
+  - name: data
+    emptyDir:
+      medium: "Memory"
+
+tempoQuery:
+  # version should include fix in tempo-query to correctly set time range
+  tag: main-07746da
+
+tempo:
+  retention: 24h
+  searchEnabled: true
+  extraVolumeMounts:
+  - mountPath: /var/tempo
+    name: data
+  storage:
+    trace:
+      # refer https://github.com/grafana/tempo/tree/master/docs/tempo/website/configuration
+      backend: local
+      local:
+        path: /var/tempo/traces
+      wal:
+        path: /var/tempo/wal
