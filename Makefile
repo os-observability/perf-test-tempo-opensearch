@@ -92,3 +92,7 @@ deploy-tracegen-tempo: deploy-tempo-query-load-generator
 .PHONY: port-forward-query-api-tempo
 port-forward-query-api-tempo:
 	kubectl port-forward svc/tempo-cluster-tempo-distributed-query-frontend 3100:3100  -n test-tempo
+
+.PHONY: resources-tempo-monolith-ramdisk
+resources-tempo-monolith-ramdisk:
+	helm template tempo-cluster -f ./resources-tempo-monolith-ramdisk/tempo-helm-values.yaml --namespace tempo-monolith-local-ramdisk grafana/tempo --version 0.15.8 > resources-tempo-monolith-ramdisk/tempo-monolith-manifests.yaml
