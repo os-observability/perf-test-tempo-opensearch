@@ -1,5 +1,5 @@
-# helm template tempo-cluster -f tempo-monolith-helm-values.yaml  --namespace test-tempo grafana/tempo --version 0.15.8  > tempo-local-manifests.yaml
-# docker run -it --rm --net=host grafana/grafana-oss
+# helm template tempo-cluster -f tempo-monolith-helm-values.yaml  --namespace test-tempo grafana/tempo --version 0.15.8  > tempo-monolith-manifests.yaml
+# docker run -it --rm --net=host grafana/grafana-oss:9.1.0
 # add Tempo or Jaeger datasource
 # http://localhost:16686/trace/7863ef3526a1b594
 # http://localhost:16686/api/traces/7863ef3526a1b594
@@ -20,7 +20,9 @@ extraVolumes:
 
 tempoQuery:
   # version should include fix in tempo-query to correctly set time range
-  tag: main-07746da
+#  tag: main-07746da
+  repository: pavolloffay/tempo
+  tag: fix-query
 
 tempo:
   retention: 24h
