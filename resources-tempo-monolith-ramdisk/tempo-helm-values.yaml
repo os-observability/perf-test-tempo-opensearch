@@ -20,12 +20,14 @@ extraVolumes:
 
 tempoQuery:
   # version should include fix in tempo-query to correctly set time range
-#  tag: main-07746da
-  repository: pavolloffay/tempo
-  tag: fix-query
+  repository: grafana/tempo-query
+  tag: main-a8ac806
 
 tempo:
-  retention: 24h
+  repository: grafana/tempo
+  tag: main-a8ac806
+  # one week retention
+  retention: 168h
   searchEnabled: true
   extraVolumeMounts:
   - mountPath: /var/tempo

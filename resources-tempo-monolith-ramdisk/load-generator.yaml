@@ -425,7 +425,7 @@ spec:
               readOnly: true
           env:
             - name: JAEGER_COLLECTOR_URL
-              value: http://tempo-cluster.tempo-monolith-local-ramdisk.svc:14268
+              value: http://tempo-cluster:14268
             - name: TOPOLOGY_FILE
               value: /topology-files/topology.json
       volumes:

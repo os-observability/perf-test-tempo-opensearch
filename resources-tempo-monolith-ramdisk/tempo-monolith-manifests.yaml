@@ -9,7 +9,7 @@ metadata:
     helm.sh/chart: tempo-0.15.8
     app.kubernetes.io/name: tempo
     app.kubernetes.io/instance: tempo-cluster
-    app.kubernetes.io/version: "1.4.1"
+    app.kubernetes.io/version: "main-a8ac806"
     app.kubernetes.io/managed-by: Helm
 ---
 # Source: tempo/templates/configmap-tempo-query.yaml
@@ -22,7 +22,7 @@ metadata:
     helm.sh/chart: tempo-0.15.8
     app.kubernetes.io/name: tempo
     app.kubernetes.io/instance: tempo-cluster
-    app.kubernetes.io/version: "1.4.1"
+    app.kubernetes.io/version: "main-a8ac806"
     app.kubernetes.io/managed-by: Helm
 data:
   tempo-query.yaml: |
@@ -38,7 +38,7 @@ metadata:
     helm.sh/chart: tempo-0.15.8
     app.kubernetes.io/name: tempo
     app.kubernetes.io/instance: tempo-cluster
-    app.kubernetes.io/version: "1.4.1"
+    app.kubernetes.io/version: "main-a8ac806"
     app.kubernetes.io/managed-by: Helm
 data:
   overrides.yaml: |
@@ -52,7 +52,7 @@ data:
         max_duration: 0
     compactor:
       compaction:
-        compacted_block_retention: 24h
+        compacted_block_retention: 168h
     distributor:
       receivers:
             jaeger:
@@ -96,7 +96,7 @@ metadata:
     helm.sh/chart: tempo-0.15.8
     app.kubernetes.io/name: tempo
     app.kubernetes.io/instance: tempo-cluster
-    app.kubernetes.io/version: "1.4.1"
+    app.kubernetes.io/version: "main-a8ac806"
     app.kubernetes.io/managed-by: Helm
 spec:
   type: ClusterIP
@@ -164,7 +164,7 @@ metadata:
     helm.sh/chart: tempo-0.15.8
     app.kubernetes.io/name: tempo
     app.kubernetes.io/instance: tempo-cluster
-    app.kubernetes.io/version: "1.4.1"
+    app.kubernetes.io/version: "main-a8ac806"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -185,7 +185,7 @@ spec:
       - args:
         - -config.file=/conf/tempo.yaml
         - -mem-ballast-size-mbs=1024
-        image: grafana/tempo:1.4.1
+        image: grafana/tempo:main-a8ac806
         imagePullPolicy: IfNotPresent
         name: tempo
         ports:
@@ -222,7 +222,7 @@ spec:
       - args:
         - --query.base-path=/
         - --grpc-storage-plugin.configuration-file=/conf/tempo-query.yaml
-        image: pavolloffay/tempo:fix-query
+        image: grafana/tempo-query:main-a8ac806
         imagePullPolicy: IfNotPresent
         name: tempo-query
         ports:
