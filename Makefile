@@ -96,3 +96,6 @@ port-forward-query-api-tempo:
 .PHONY: resources-tempo-monolith-ramdisk
 resources-tempo-monolith-ramdisk:
 	helm template tempo-cluster -f ./resources-tempo-monolith-ramdisk/tempo-helm-values.yaml --namespace tempo-monolith-local-ramdisk grafana/tempo --version 0.15.8 > resources-tempo-monolith-ramdisk/tempo-monolith-manifests.yaml
+
+openshift-manifest:
+	helm template tempo-cluster -f openshift-tempo/tempo-helm-values.yaml --namespace tempo-distributed-s3 grafana/tempo-distributed --version 0.21.6  > tempo-distributed-s3.yaml

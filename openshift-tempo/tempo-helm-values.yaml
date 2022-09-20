@@ -95,7 +95,7 @@ compactor:
       memory: 100Mi
     limits:
       cpu: "300m"
-      memory: "512Mi"
+      memory: "700Mi"
 querier:
   extraVolumes:
     - name: data-querier
@@ -141,10 +141,10 @@ storage:
   trace:
     backend: "s3"
     s3:
-      access_key: xxxxxxxxxxxxxxxxx
+      access_key: xxxxxx
       bucket: observability-d-tempo-bucket
       endpoint: s3.dualstack.us-east-1.amazonaws.com
-      secret_key: xxxxxxxxxxxxxxxxx
+      secret_key: xxxxxx
       region: us-east-1
     blocklist_poll: 5m
     wal:
