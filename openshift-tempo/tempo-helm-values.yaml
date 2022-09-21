@@ -142,7 +142,7 @@ storage:
     backend: "s3"
     s3:
       access_key: #ACCESS_KEY#
-      bucket: observability-tempo-bucket
+      bucket: observability-d-tempo-bucket
       endpoint: s3.dualstack.us-east-1.amazonaws.com
       secret_key: #SECRET_KEY#
       region: us-east-1
