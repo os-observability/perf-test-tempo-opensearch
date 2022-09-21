@@ -8,6 +8,7 @@ deploy-load-generator:
 
 .PHONY: deploy-grafana
 deploy-grafana:
+	oc apply -f monitoring.yaml
 	oc apply -f grafana/grafana.yaml
 	oc adm policy add-cluster-role-to-user cluster-monitoring-view -z grafana-serviceaccount -n tempo-distributed-s3
 	sed -e 's/${TOKEN}/'$(oc serviceaccounts get-token grafana-serviceaccount -n tempo-distributed-s3)'/g' grafana/grafana_datasource.yaml.template | oc apply -f-
