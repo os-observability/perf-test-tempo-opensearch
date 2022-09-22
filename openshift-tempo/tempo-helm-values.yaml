@@ -1,0 +1,151 @@
+---
+memcached:
+  enabled: false
+search:
+  enabled: true
+traces:
+  otlp:
+    grpc:
+      enabled: true
+    http:
+      enabled: true
+  jaeger:
+    thriftHttp:
+      enabled: true
+tempo:
+  structuredConfig:
+    server:
+      # At larger scales, searching starts to feel more like a batch job.
+      # Increase the server timeout intervals.
+      http_server_read_timeout: 3m
+      http_server_write_timeout: 3m
+    querier:
+      query_timeout: 30s
+      # Greatly increase the amount of work each querier will attempt
+      max_concurrent_queries: 80
+      search:
+        query_timeout: 40s
+    storage:
+      trace:
+        cache: none
+        s3:
+          hedge_requests_at: 5s
+          hedge_requests_up_to: 3
+    query_frontend:
+      search:
+        concurrent_jobs: 5000
+        max_duration: 0
+    overrides:
+      ingestion_burst_size_bytes: 15000000000
+      ingestion_rate_limit_bytes: 15000000000
+      max_traces_per_user: 50000000
+      max_bytes_per_tag_values_query: 15000000000
+      # default is 5000 (5Kb), 0 means no limit
+      max_search_bytes_per_trace: 0
+server:
+  logLevel: debug
+ingester:
+  replicas: 1
+  config:
+    replication_factor: 1
+
+    # maximum length of time before cutting a block
+    # (default: 1h)
+    # change if needed to flush data to s3 earlier
+    max_block_duration: 10m
+
+  # maximum size of a block before cutting it
+  # (default: 1073741824 = 1GB)
+  #max_block_bytes:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 1500Mi
+    limits:
+      cpu: "1000m"
+      memory: "1500Mi"
+  persistence:
+    enabled: true
+distributor:
+  extraVolumes:
+    - name: data-distributor
+      emptyDir:
+  extraVolumeMounts:
+    - mountPath: /var/tempo
+      name: data-distributor
+  replicas: 1
+  affinity: {}
+  resources:
+    requests:
+      cpu: 300m
+      memory: 1500Mi
+    limits:
+      cpu: "300m"
+      memory: "1500Mi"
+compactor:
+  extraVolumes:
+    - name: data-compactor
+      emptyDir:
+  extraVolumeMounts:
+    - mountPath: /var/tempo
+      name: data-compactor
+  resources:
+    requests:
+      cpu: 100m
+      memory: 100Mi
+    limits:
+      cpu: "300m"
+      memory: "700Mi"
+querier:
+  extraVolumes:
+    - name: data-querier
+      emptyDir:
+  extraVolumeMounts:
+    - mountPath: /var/tempo
+      name: data-querier
+  resources:
+    requests:
+      cpu: 100m
+      memory: 500Mi
+    limits:
+      cpu: "500m"
+      memory: "1800Mi"
+queryFrontend:
+  extraVolumes:
+    - name: data-querier-frontend
+      emptyDir:
+    - name: data-query
+      emptyDir:
+  extraVolumeMounts:
+    - mountPath: /var/tempo
+      name: data-querier-frontend
+  resources:
+    requests:
+      cpu: 100m
+      memory: 500Mi
+    limits:
+      cpu: "500m"
+      memory: "1000Mi"
+  query:
+    extraVolumeMounts:
+      - mountPath: /var/tempo
+        name: data-query
+    resources:
+      requests:
+        cpu: 100m
+        memory: 500Mi
+      limits:
+        cpu: "200m"
+        memory: "1000Mi"
+storage:
+  trace:
+    backend: "s3"
+    s3:
+      access_key: #ACCESS_KEY#
+      bucket: observability-d-tempo-bucket
+      endpoint: s3.dualstack.us-east-1.amazonaws.com
+      secret_key: #SECRET_KEY#
+      region: us-east-1
+    blocklist_poll: 5m
+    wal:
+      path: /var/tempo/wal
